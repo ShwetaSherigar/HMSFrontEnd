@@ -1,0 +1,30 @@
+[
+    {
+        "roomno": 1,
+        "roomtype": "Luxury",
+        "capacity": 5,
+        "status": "Available",
+        "price": 10000
+    },
+    {
+        "roomno": 2,
+        "roomtype": "Ordinary",
+        "capacity": 5,
+        "status": "Available",
+        "price": 5000
+    },
+    {
+        "roomno": 3,
+        "roomtype": "Luxury",
+        "capacity": 5,
+        "status": "Un-Available",
+        "price": 10000
+    },
+    {
+        "roomno": 4,
+        "roomtype": "Ordinary",
+        "capacity": 5,
+        "status": "Un-Available",
+        "price": 5000
+    }
+]

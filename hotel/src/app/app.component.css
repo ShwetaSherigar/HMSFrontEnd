@@ -1,0 +1,11 @@
+  body {
+    /* background-image: url("C:/HMS/Hotel/src/assets/bg.jpg"); */
+    background-image: url("../assets/bg.jpg");
+    height: 800px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+   }
+ 
+
+  

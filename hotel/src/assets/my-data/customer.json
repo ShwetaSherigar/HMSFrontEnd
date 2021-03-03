@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "fullName": "Shweta Sherigar",
+    "email": "shweta@gmail.com",
+    "password": "shweta",
+    "address": "Bangalore",
+    "phoneNumber": "7406365041",
+    "gender": "female"
+  },
+  {
+    "id": 2,
+    "fullName": "Shree SHerigar",
+    "email": "shree@gmail.com",
+    "password": "shree",
+    "address": "Bangalore",
+    "phoneNumber": "7832877822",
+    "gender": "female"
+  }
+]

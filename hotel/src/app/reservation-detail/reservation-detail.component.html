@@ -1,0 +1,54 @@
+<p>reservation-detail works!</p>
+<blockquote class="blockquote">
+    <p><b>Your booking details</b></p>
+</blockquote>
+<div class="container custom-container-2">
+
+    
+    <div class="no-data text-center" *ngIf="reservation.length == 0">
+        <p>There is no booking done by you yet!</p>
+        <p>Book now!!!!</p>
+        <button class="btn btn-outline-primary" routerLink="/booking">Make a Booking</button>
+    </div>
+
+    
+    <div *ngIf="reservation.length !== 0">
+       
+
+
+        <div class="col-md-12">
+            <table class="table table-warning">
+                <thead>
+                    <tr>
+                        <th scope="col">reservationId</th>
+                        <th scope="col"> checkIn</th>
+                        <th scope="col">checkOut</th>
+                        <th scope="col">roomNo</th>
+                        <th scope="col">customerId</th>
+                        <th scope="col">totalPrice</th>
+                        <th scope="col">selectedroomType</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let reservation of reservation">
+                        <td>{{reservation.reservationId}}</td>
+                        <td>{{reservation.checkIn}}</td>
+                        <td>{{reservation.checkOut}}</td>
+                        <td>{{reservation.roomNo}}</td>
+                        <td>{{reservation.customerId}}</td>
+                        <td>{{reservation.totalPrice}}</td>
+                        <td>{{reservation.selectedroomType}}</td>
+                       
+                        <td>
+                            <button class="edit" routerLink="/edit/{{reservation.customerId}}"> Edit </button>
+                            <button class="delete" routerLink="/delete/{{reservation.reservationId}}">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</div>

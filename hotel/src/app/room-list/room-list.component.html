@@ -1,0 +1,29 @@
+<div class="row">
+    <div class="room-list jumbotron shadow">
+        <h2 class="text-center">All Rooms In Our Hotel</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Room No</th>
+                    <th scope="col">Room Type</th>
+                    <th scope="col">Capacity</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Price</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let room of rooms;">
+                    <td>{{room.roomNo}}</td>
+                    <td>{{room.roomType}}</td>
+                    <td>{{room.capacity}}</td>
+                    <td>{{room.status}}</td>
+                    <td>{{room.price | number}}</td>
+                    <td class="float-right">
+                        <button class="btn btn-info" (click)="roomSelection(room)"> Select </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

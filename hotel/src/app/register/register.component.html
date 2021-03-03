@@ -1,0 +1,40 @@
+<p>register works!</p>
+
+
+<div class="signup-form">
+    <form action="/examples/actions/confirmation.php" method="post">
+        <h2>Register</h2>
+        
+
+        <div class="form-group">
+            <input type="text" class="form-control" [(ngModel)]="customerDetails.name" name="name" placeholder="FullName" required="required">
+        </div>
+        <div class="form-group">
+            <input type="email" class="form-control" [(ngModel)]="customerDetails.emailId" name="emailId" placeholder="Email" required="required">
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control" [(ngModel)]="customerDetails.password" name="password" placeholder="Password" required="required">
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control" name="confirmPassword" placeholder="Confirm Password"
+                required="required">
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" [(ngModel)]="customerDetails.address" name="address" placeholder="Address" required="required">
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" [(ngModel)]="customerDetails.phone" name="phone" placeholder="Phonenumber" required="required">
+        </div>
+        <div class="form-group">
+            <p>Please select your gender:</p>
+            <input type="radio" id="male" [(ngModel)]="customerDetails.gender" name="gender" value="male">
+            <label for="male">Male</label><br>
+            <input type="radio" id="female" [(ngModel)]="customerDetails.gender" name="gender" value="female">
+            <label for="female">Female</label>
+        </div>
+        
+        <div class="form-group">
+            <button type="submit" class="btn btn-success btn-lg btn-block" (click)="registerCustomer()">Register Now</button>
+        </div>
+    </form>
+    <div class="text-center">Already have an account? <a routerLink="/login" routerLinkActive="active">Login</a></div>
