@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
 
   @Input() loginDetails: any = { emailId: '', password: '' }
-  custDetails :any;
+  custDetails: any;
   constructor(
     public restApi: RestApiService,
     public router: Router
@@ -20,20 +20,27 @@ export class LoginComponent implements OnInit {
   }
 
   login(): void {
-    //this.loginDetails
-    this.restApi.getCustomer(this.loginDetails.emailId).subscribe((data) => {
-      this.custDetails = data;
-      if (this.custDetails) 
-      {
-        if (this.custDetails.emailId == this.loginDetails.emailId && this.custDetails.password == this.loginDetails.password) 
-        {
-          this.restApi.loggedInUser = this.custDetails;
-          this.restApi.setCustomer(this.custDetails);
-          this.router.navigate(['/room-list']);
+    if (this.loginDetails && this.loginDetails.emailId && this.loginDetails.password) {
+      this.restApi.getCustomer(this.loginDetails.emailId).subscribe((data) => {
+        this.custDetails = data;
+
+        if (this.custDetails) {
+          if (this.custDetails.emailId == this.loginDetails.emailId && this.custDetails.password == this.loginDetails.password) {
+            this.restApi.loggedInUser = this.custDetails;
+            this.restApi.setCustomer(this.custDetails);
+            this.router.navigate(['/room-list']);
+
+          }
+          else if (this.custDetails.emailId == this.loginDetails.emailId && this.custDetails.password != this.loginDetails.password) {
+            alert(" password is incorrect! Please login with valid password.");
+          }
         }
-      } 
-      else {
-        alert("User name or password is incorrect! Please login with valid information.");
-      } })
+        else {
+          alert("User name or password is incorrect! Please login with valid information.");
+        }
+      })
+    } else {
+      alert("Email Id or Password should not be empty!");
+    }
   }
 }

@@ -3,11 +3,13 @@ body {
 	color: #fff;
 	background: #63738a;
 	font-family: 'Roboto', sans-serif;
+
 }
 .form-control {
 	height: 40px;
 	box-shadow: none;
-	color: #969fa4;
+	/*color: #969fa4;*/
+	color: #180f0a;
 }
 .form-control:focus {
 	border-color: #5cb85c;
@@ -74,7 +76,7 @@ body {
 	padding-left: 10px;
 }    	
 .signup-form a {
-	/* color: #fff; */
+	
 	text-decoration: underline;
 }
 .signup-form a:hover {

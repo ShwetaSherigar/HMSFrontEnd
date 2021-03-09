@@ -6,16 +6,18 @@ import { IReservation } from '../shared/IReservation';
 import { RestApiService } from '../shared/rest-api.service';
 
 @Component({
-  selector: 'app-reservation-detail',
-  templateUrl: './reservation-detail.component.html',
-  styleUrls: ['./reservation-detail.component.css']
+  selector: 'app-booking-details',
+  templateUrl: './booking-details.component.html',
+  styleUrls: ['./booking-details.component.css']
 })
-export class ReservationDetailComponent implements OnInit {
+export class BookingDetailsComponent implements OnInit {
 
-  customerId = this.actroute.snapshot.params['id'];
+  emailId = this.actroute.snapshot.params['emailId'];
+  todaysDate = Date.now();
+
 
   reservation: IReservation[] = [];
-  todaysDate = Date.now();
+  customerId: any;
   public loggedInUser: ICustomer = {
     customerId: 0,
     name: "",
@@ -25,19 +27,31 @@ export class ReservationDetailComponent implements OnInit {
     emailId: "",
     password: ""
   };
+  collectionSize: number = 0;
+  page = 1;
+  pageSize = 4;
 
   constructor(
     public restApi: RestApiService,
     public router: Router,
     public actroute: ActivatedRoute,
-    public datepipe:DatePipe
+    public datepipe: DatePipe
   ) {
 
   }
 
   ngOnInit(): void {
-    this.loadReservation();
 
+    this.getCustomerId();
+  }
+
+  todayDate = this.datepipe.transform(this.todaysDate, 'dd-MM-yyyy');
+  getCustomerId() {
+    this.restApi.getCustomerId(this.emailId).subscribe((data) => {
+      this.customerId = data;
+      this.loadReservation();
+
+    });
   }
 
   edit(reservationId: any) {
@@ -51,6 +65,7 @@ export class ReservationDetailComponent implements OnInit {
   loadReservation() {
     this.restApi.getBookingDetails(this.customerId).subscribe((data) => {
       this.reservation = data;
+      this.collectionSize = this.reservation.length;
     });
   }
 
@@ -58,11 +73,9 @@ export class ReservationDetailComponent implements OnInit {
   cancel(id: any) {
 
     this.restApi.cancelReservation(id).subscribe((data) => {
-      window.alert("Your reservation cancelled successfully!!");
+      window.alert("Your reservation Cancelled successfully!!");
       this.loadReservation();
     });
-
-
   }
 
   isDate(checkIn:any):any
@@ -81,6 +94,4 @@ export class ReservationDetailComponent implements OnInit {
       }
     }
   }
-
 }
-

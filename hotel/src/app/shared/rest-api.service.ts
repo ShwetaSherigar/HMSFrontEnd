@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Customer } from './customer.service';
 import { ICustomer } from './ICustomer';
 import { Observable, throwError, Subject, BehaviorSubject } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 import { IRoom } from './IRoom';
+import { IReservation } from './IReservation';
+import { ReservationService } from './reservation.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RestApiService {
   private resturl: string = '/assets/my-data/';
-  private springRestUrl:String='http://localhost:8060/HMS/';
+  private springRestUrl: String = 'http://localhost:8060/HMS/';
   public selectedRoom: IRoom = {
     roomNo: 0,
     roomType: "",
@@ -19,9 +20,9 @@ export class RestApiService {
     status: "",
     price: 0
   };
-  public loggedInUser: ICustomer = {
-    id: 0,
-    name:"",
+  public loggedInUser: any = {
+    customerId: 0,
+    name: "",
     phone: "",
     gender: "",
     emailId: "",
@@ -34,38 +35,96 @@ export class RestApiService {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
     })
-  } 
+  }
 
   customerSubject = new BehaviorSubject(this.loggedInUser);
   constructor(private http: HttpClient) { }
 
 
-  createCustomer(customer:any): Observable<ICustomer[]> {
-    return this.http.post<ICustomer[]>(this.springRestUrl + '/create',JSON.stringify(customer), this.httpOptions).pipe(retry(1), catchError(this.handleError));
+  createCustomer(customer: any): Observable<ICustomer[]> {
+    return this.http.post<ICustomer[]>(this.springRestUrl + '/create', JSON.stringify(customer), this.httpOptions).pipe(retry(1), catchError(this.handleError));
   }
 
-  getCustomer(emailId:String): Observable<ICustomer> {
-    return this.http.get<ICustomer>(this.springRestUrl + '/getCustomer/'+emailId+'/',this.httpOptions);
+  getCustomer(emailId: String): Observable<ICustomer> {
+    return this.http.get<ICustomer>(this.springRestUrl + '/getCustomer/' + emailId + '/', this.httpOptions);
   }
 
+  getCustomerById(customerId: number): Observable<ICustomer> {
+    return this.http.get<ICustomer>(this.springRestUrl + '/getCustomerById/' + customerId, this.httpOptions);
+  }
 
-  getCustomerName(): Observable<ICustomer> 
-  {
+  getBookingDetails(customerId: any): Observable<IReservation[]> {
+    return this.http.get<IReservation[]>(this.springRestUrl + '/bookingDetail/' + customerId).pipe(retry(1), catchError(this.handleError));
+  }
+  getCustomerName(): Observable<ICustomer> {
     return <Observable<ICustomer>>this.customerSubject;
   }
-  // getCustomerList(): Observable<ICustomer[]> {
-  //   return this.http.get<ICustomer[]>(this.resturl + 'customer.json').pipe(retry(1), catchError(this.handleError));
-  // }
 
-  
+  getRoomTypes(): Observable<string[]> {
+    return this.http.get<string[]>(this.springRestUrl + '/getRoomTypes', this.httpOptions);
+  }
+
+  getCapacity(roomType: String): Observable<number> {
+    return this.http.get<number>(this.springRestUrl + '/getRoomCapacity/' + roomType, this.httpOptions);
+  }
+
+  getPrice(roomType: String): Observable<number> {
+    return this.http.get<number>(this.springRestUrl + '/getRoomPrice/' + roomType, this.httpOptions);
+  }
+
 
   getRooms(): Observable<IRoom[]> {
     return this.http.get<IRoom[]>(this.springRestUrl + '/getRoomDetails').pipe(retry(1), catchError(this.handleError));
   }
 
+  getAllRoomNO(roomType: string): Observable<number[]> {
+    return this.http.get<number[]>(this.springRestUrl + '/getRoomNo/' + roomType).pipe(retry(1), catchError(this.handleError));
+  }
+
+
+  getCustomerId(emailId: string): Observable<number> {
+    return this.http.get<number>(this.springRestUrl + '/getCustomerId/' + emailId + '/').pipe(retry(1), catchError(this.handleError));
+  }
+
+  createReservation(reservation: any): Observable<IReservation> {
+    return this.http.post<IReservation>(this.springRestUrl + '/reservation', JSON.stringify(reservation), this.httpOptions).pipe(retry(1), catchError(this.handleError));
+  }
+
+  allocateStatus(roomNo: any, status: any): Observable<IRoom> {
+    return this.http.put<IRoom>(this.springRestUrl + '/allocateStatus/' + roomNo + '/' + status, this.httpOptions).pipe(retry(1), catchError(this.handleError));
+  }
+
+  getBookedRoomDetails(roomType: any): Observable<IReservation[]> {
+    return this.http.get<IReservation[]>(this.springRestUrl + "/bookedRoomDetail/" + roomType).pipe(retry(1), catchError(this.handleError));
+  }
+
   setCustomer(data: ICustomer) {
     this.customerSubject.next(data);
   }
+  editReservation(reservation: ReservationService, reservationId: any): Observable<IReservation[]> {
+    return this.http.put<IReservation[]>(this.springRestUrl + '/update/' + reservationId, JSON.stringify(reservation), this.httpOptions)
+      .pipe(
+        retry(1),
+        catchError(this.handleError)
+      );
+  }
+
+  deleteReservation(reservationId: any): Observable<IReservation> {
+    return this.http.delete<IReservation>(this.springRestUrl + '/delete/' + reservationId)
+  }
+
+  cancelReservation(reservationId: any): Observable<IReservation>{
+    return this.http.put<IReservation>(this.springRestUrl + '/cancel/' + reservationId, this.httpOptions).pipe(retry(1),catchError(this.handleError));
+  }
+
+  changePassword(customer: any): Observable<ICustomer> {
+    return this.http.put<ICustomer>(this.springRestUrl + '/changePassword', JSON.stringify(customer), this.httpOptions).pipe(retry(1), catchError(this.handleError));
+  }
+
+  getBookingDetailsbyReservationId(reservationId: any): Observable<IReservation[]> {
+    return this.http.get<IReservation[]>(this.springRestUrl + '/bookingDetailbyresId/' + reservationId).pipe(retry(1), catchError(this.handleError));
+  }
+
 
   handleError(err: any) {
     let errorMessage = "";
@@ -80,63 +139,7 @@ export class RestApiService {
     return throwError(errorMessage);
 
   }
-
-  // // http://localhost:8081/EMSusingSprHib
-  // // Define API
-  // apiURL = 'http://localhost:8081/HMS';
-
-  // constructor(private http: HttpClient) { }
-
-  // /*========================================
-  //   CRUD Methods for consuming RESTful API
-  // =========================================*/
-
-  // // Http Options
-  // httpOptions = {
-  //   headers: new HttpHeaders({
-  //     'Content-Type': 'application/json'
-  //   })
-  // }  
-
-  // // HttpClient API get() method => Fetch Customers list
-  // getCustomers(): Observable<Customer> {
-  //   return this.http.get<Customer>(this.apiURL + '/allCustomers')
-  //   .pipe(
-  //     retry(1),
-  //     catchError(this.handleError)
-  //   )
-  // }
-
-  // // HttpClient API get() method => Fetch Customer
-  // getCustomer(eid:any): Observable<Customer> {
-  //   return this.http.get<Customer>(this.apiURL + '/searchid/' + eid)
-  //   .pipe(
-  //     retry(1),
-  //     catchError(this.handleError)
-  //   )
-  // }  
-
-  // // HttpClient API post() method => Create customer
-  // createCustomer(customer:any): Observable<Customer> {
-  //   return this.http.post<Customer>(this.apiURL + '/create', JSON.stringify(customer), this.httpOptions)
-  //   .pipe(
-  //     retry(1),
-  //     catchError(this.handleError)
-  //   )
-  // }  
-
-  // // Error handling 
-  // handleError(error:any) {
-  //    let errorMessage = '';
-  //    if(error.error instanceof ErrorEvent) {
-  //      // Get client-side error
-  //      errorMessage = error.error.message;
-  //    } else {
-  //      // Get server-side error
-  //      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-  //    }
-  //    window.alert(errorMessage);
-  //    return throwError(errorMessage);
-  // }
 }
+
+
 

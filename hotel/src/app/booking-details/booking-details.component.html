@@ -1,0 +1,62 @@
+<body>
+    <blockquote class="blockquote">
+        <h1>Your booking details</h1>
+    </blockquote>
+    <div class="container custom-container-2">
+
+
+        <div class="no-data text-center" *ngIf="reservation.length == 0">
+            <p>There is no booking done by you yet!</p>
+            <p>Book now!!!!</p>
+            <button class="btn btn-outline-primary" routerLink="/booking">Make a Booking</button>
+        </div>
+
+
+        <div *ngIf="reservation.length  != 0">
+
+
+
+            <div class="col-md-16">
+                <table class="table table-hover table-light">
+                    <thead>
+                        <tr>
+                            <th scope="col">RESERVATION ID</th>
+                            <th scope="col">CHECK IN</th>
+                            <th scope="col">CHECK OUT</th>
+                            <th scope="col">ROOM NUMBER</th>
+                            <th scope="col">CUSTOMER ID</th>
+                            <th scope="col">PRICE</th>
+                            <th scope="col">ROOM TYPE</th>
+                            <th scope="col">STATUS</th>
+                            <th scope="col">ACTION</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let reservation of reservation">
+                            <td>{{reservation.reservationId}}</td>
+                            <td>{{reservation.checkIn | date : 'dd-MM-yyyy'}}</td>
+                            <td>{{reservation.checkOut | date : 'dd-MM-yyyy'}}</td>
+                            <td>{{reservation.roomNo}}</td>
+                            <td>{{reservation.customerId}}</td>
+                            <td>{{reservation.totalPrice}}</td>
+                            <td>{{reservation.selectedRoomType}}</td>
+                            <td *ngIf="reservation.status=='CANCELLED'">{{reservation.status}}</td>
+                            <td *ngIf="reservation.status==null">BOOKED</td>
+                            <td *ngIf="reservation.status!='CANCELLED' && isDate(reservation.checkIn)">
+                                <button class="btn btn-outline-info" (click)="edit(reservation.reservationId)"> Edit
+                                </button>&nbsp;
+                                <button class="btn btn-outline-danger"
+                                    (click)="cancel(reservation.reservationId)">Cancel</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [maxSize]="5" [boundaryLinks]="true"
+            [pageSize]="pageSize" class="d-flex justify-content-center"></ngb-pagination> -->
+
+            </div>
+
+        </div>
+    </div>
+</body>

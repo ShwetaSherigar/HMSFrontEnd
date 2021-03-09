@@ -1,14 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AboutusComponent } from './aboutus/aboutus.component';
+import { BookingDetailsComponent } from './booking-details/booking-details.component';
 import { BookingComponent } from './booking/booking.component';
 import { ContactusComponent } from './contactus/contactus.component';
+import { EditReservationComponent } from './edit-reservation/edit-reservation.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
 import { RegisterComponent } from './register/register.component';
+import { ReservationDetailComponent } from './reservation-detail/reservation-detail.component';
 import { RoomListComponent } from './room-list/room-list.component';
 
 const routes: Routes = [
@@ -18,9 +21,12 @@ const routes: Routes = [
   {path : 'room-list' , component :RoomListComponent},
   {path : 'register' , component : RegisterComponent},
   {path : 'booking' , component : BookingComponent},
+  {path : 'booking-details/:emailId' , component : BookingDetailsComponent},
   {path : 'aboutus' , component : AboutusComponent},
   {path : 'contactus' , component : ContactusComponent},
   {path : 'forgot-password' , component : ForgotPasswordComponent},
+  {path : 'reservation-detail/:id' , component : ReservationDetailComponent},
+  {path : 'edit-reservation/:reservationId' , component : EditReservationComponent},
   {path : '**' , component : PagenotfoundComponent}
 
 ];
@@ -31,4 +37,4 @@ const routes: Routes = [
 })
 export class AppRoutingModule { }
 
-export const routingComponents =[HomeComponent,RoomListComponent,ForgotPasswordComponent,RegisterComponent,BookingComponent,ContactusComponent,LoginComponent,AboutusComponent,PagenotfoundComponent];
+export const routingComponents =[HomeComponent,RoomListComponent,ForgotPasswordComponent,RegisterComponent,BookingComponent,ContactusComponent,LoginComponent,AboutusComponent, ReservationDetailComponent,PagenotfoundComponent,EditReservationComponent];

@@ -1,45 +1,43 @@
-<html>
-
-<body>
-
+<body [ngStyle]="{'background-image': getUrl()}">
   <div class="text-center" style="color: #e9ecef;
   margin-bottom: -0.6%;
   background: #ececec91;
   letter-spacing: 11px; text-shadow: 2px 2px grey;">
-    <h1> KARTHIK ESTATE</h1>
+    <h1> LEGADO HOTELS</h1>
   </div>
-
   <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e9ecef;">
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
+        <li class="nav-item">
           <a class="nav-link" routerLink="/home" routerLinkActive="active">Home <span
               class="sr-only">(current)</span></a>
         </li>
-
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/aboutus" routerLinkActive="active">About Us</a>
+        </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="/room-list" routerLinkActive="active">Booking</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="/contactus" routerLinkActive="active">Contact Us</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/aboutus" routerLinkActive="active">About Us</a>
-        </li>
+
       </ul>
-      <!-- <form class="form-inline my-2 my-lg-0"> -->
-      <!-- <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> -->
-      <!-- </form> -->
+
       <div class="form-inline my-2 my-lg-0" *ngIf="loggedInUser && loggedInUser.name">
-       
         <div class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
             {{loggedInUser.name}}
           </a>
+
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" routerLink="/mybooking" routerLinkActive="active">My Bookings</a>
-            <a class="dropdown-item" routerLink="/home" routerLinkActive="active">LogOut</a>
+
+            <a class="dropdown-item" routerLink="/booking-details/{{loggedInUser.emailId}}" routerLinkActive="active">My
+              Booking</a>
+            <div class="dropdown-divider"></div>
+
+            <div class="dropdown-item" (click)="logOut()">Log Out</div>
           </div>
         </div>
       </div>
@@ -54,5 +52,13 @@
   </nav>
   <router-outlet></router-outlet>
 </body>
-
-</html>
+<footer class="footer">
+  <div class="container bottom_border">
+    <div class="row">
+      <div class=" col-sm-4 col-md col-sm-4  col-12 col">
+        <p class="text-center">Copyright @2021 | Designed by <a href="#">Legado hotels</a> All Rights Reserved
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>

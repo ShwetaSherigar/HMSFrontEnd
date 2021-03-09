@@ -1,4 +1,15 @@
 .contact{
-    width: 20%;
-    margin: 0 auto;
+    display: flex;           /* establish flex container */
+    flex-direction: column;  /* make main axis vertical */
+    justify-content: center; /* center items vertically, in this case */
+    align-items: center;     /* center items horizontally, in this case */
+    height: 70%;
+}
+
+
+
+.container {
+    width: 40rem;
+    margin: 5px;
+    text-align: center;
 }

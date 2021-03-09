@@ -1,0 +1,63 @@
+<div class="login-form-flex">
+    <div class="col-md-4">
+        <form>
+            <h2>Edit Booking</h2>
+            <div class="form-group">
+
+                <input type="text" class="form-control" [(ngModel)]="EditDetails.reservationId" name="reservationId"
+                    placeholder="ReservationId" disabled>
+            </div>
+
+            <div class="form-group">
+
+                <input type="date" class="form-control" [(ngModel)]="EditDetails.checkIn" name="checkIn"
+                    placeholder="Check-in" onfocus="(this.type='date')" required="required" required
+                    [min]="today | date:'yyyy-MM-dd'" (ngModelChange)="emptyCheckOut()">
+            </div>
+            <div class="form-group">
+
+                <input type="date" class="form-control" [(ngModel)]="EditDetails.checkOut" name="checkOut"
+                    placeholder="Check-out" required [disabled]="!checkIn" [min]="minDateCheckOut | date:'yyyy-MM-dd'"
+                    (ngModelChange)="getPriceAfterRoomType(EditDetails.selectedRoomType)">
+            </div>
+
+            <div class="form-group">
+                <input type="text" class="form-control" [(ngModel)]="EditDetails.roomNo" name="roomNo"
+                    placeholder="Room Number" disabled>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" [(ngModel)]="EditDetails.customerId" name="customerId"
+                    placeholder="CustomerId" disabled>
+            </div>
+
+            <div class="form-group">
+                <input type="text" class="form-control" [(ngModel)]="EditDetails.totalPrice" name="totalPrice"
+                    placeholder="Total Price" disabled>
+            </div>
+
+            <div class="form-group">
+
+                <select class="form-control" [(ngModel)]="EditDetails.selectedRoomType" name="roomType"
+                    placeholder="Room Type" required="required"
+                    (ngModelChange)="getPriceAfterRoomType(EditDetails.selectedRoomType)">
+
+
+                    <option selected hidden>{{EditDetails.selectedRoomType}}</option>
+
+                    <option *ngFor="let room of roomTypes;" [(ngModel)]=" EditDetails.selectedRoomType">{{room}}
+                    </option>
+
+
+                </select>
+                <span class="select-arrow"></span>
+            </div>
+
+            <div class="form-group">
+                <button type="Edit" class="btn btn-success btn-lg btn-block" (click)="EditBooking()">Edit
+                    Booking</button>
+            </div>
+        </form>
+        <div class="text-center">Dont want to edit? <a routerLink="/reservation-detail/{{EditDetails.customerId}}"
+                routerLinkActive="active">Go Back</a></div>
+    </div>
+</div>

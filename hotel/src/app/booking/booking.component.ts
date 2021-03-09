@@ -23,18 +23,20 @@ export class BookingComponent implements OnInit {
       this.router.navigate(['/room-list']);
     }
   }
-  proceedBooking(): void {
-    let startDate = new Date(this.bookingDetails.checkIn);
-    let endDate = new Date(this.bookingDetails.checkOut);
-    this.dateDifference = (endDate.getTime() - startDate.getTime()) / 60000;
-    var timeDiff = Math.abs(endDate.getTime() - startDate.getTime());
-    this.dateDifference = Math.ceil(timeDiff / (1000 * 3600 * 24));
-    let pricePerDay = this.restApi.selectedRoom && this.restApi.selectedRoom.price;
-    if (this.restApi.selectedRoom) {
-      this.totalPrice = this.dateDifference * pricePerDay;
-    }
-  }
-  onConfirmation(){
-    alert("Your Booking submitted successfully");
-  }
+  /* proceedBooking(): void {
+     let startDate = new Date(this.bookingDetails.checkIn);
+     let endDate = new Date(this.bookingDetails.checkOut);
+     this.dateDifference = (endDate.getTime() - startDate.getTime()) / 60000;
+     var timeDiff = Math.abs(endDate.getTime() - startDate.getTime());
+     this.dateDifference = Math.ceil(timeDiff / (1000 * 3600 * 24));
+     this.restApi.dateDiff = this.dateDifference;
+     let pricePerDay = this.restApi.selectedRoom && this.restApi.selectedRoom.price;
+     if (this.restApi.selectedRoom && pricePerDay) {
+       this.totalPrice = this.dateDifference * pricePerDay;
+     }
+   }
+   onConfirmation(){
+     this.router.navigate(['/booking-details']);
+     
+   }*/
 }

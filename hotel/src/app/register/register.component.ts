@@ -8,9 +8,8 @@ import { RestApiService } from '../shared/rest-api.service';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-
-  //@Input() customerDetails: any = { fullName: '', email: '', password: '', confirmPassword: '', address: '', phoneNumber: '', gender: '' }
-  @Input() customerDetails: any = { name: '', phone: '', gender: '', address: '', emailId: '', password: ''}
+  customerId: any;
+  @Input() customerDetails: any = { name: '', phone: '', gender: '', address: '', emailId: '', password: '' }
   constructor(
     public restApi: RestApiService,
     public router: Router
@@ -18,16 +17,13 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
   }
+  registerCustomer() {
 
-  // registerCustomer(): void {
-  //   this.restApi.createCustomer(this.customerDetails).subscribe((data: {}) => {
-  //   this.router.navigate(['/app-login']);
-  //    })
-  // }
-
-  registerCustomer(){
-    this.restApi.createCustomer(this.customerDetails).subscribe((data: {}) => {
-      this.router.navigate(['/login'])
+    this.restApi.createCustomer(this.customerDetails).subscribe((data) => {
+      this.customerId = data;
+      window.alert("Your Customer ID is==" + this.customerId);
+      this.router.navigate(['/login']);
     })
   }
+
 }

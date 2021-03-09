@@ -1,40 +1,86 @@
-<p>register works!</p>
-
-
 <div class="signup-form">
-    <form action="/examples/actions/confirmation.php" method="post">
+    <form #customerForm="ngForm" (ngSubmit)="customerForm.form.valid && registerCustomer()">
         <h2>Register</h2>
-        
-
         <div class="form-group">
-            <input type="text" class="form-control" [(ngModel)]="customerDetails.name" name="name" placeholder="FullName" required="required">
+            <input type="text" class="form-control" [(ngModel)]="customerDetails.name" name="name" #name="ngModel"
+                [ngClass]="{ 'is-invalid': (customerForm.submitted || name.touched) && name.invalid }"
+                placeholder="Full Name" required pattern="^[a-zA-Z ]+$">
+            <div *ngIf="name.invalid" class="invalid-feedback">
+                <div *ngIf="name?.errors?.required">Name is required</div>
+                <div *ngIf="name?.errors?.pattern">Name should contain only alphabet</div>
+            </div>
         </div>
         <div class="form-group">
-            <input type="email" class="form-control" [(ngModel)]="customerDetails.emailId" name="emailId" placeholder="Email" required="required">
+            <input type="email" class="form-control" name="email" [(ngModel)]="customerDetails.emailId" required
+                pattern="^[A-Za-z0-9]+([._+-][0-9a-zA-Z]+)?@[a-zA-Z0-9]+.[a-zA-Z]{2,4}([.][a-zA-Z]{2})?"
+                #email="ngModel"
+                [ngClass]="{ 'is-invalid': email.invalid && (customerForm.submitted || email.touched) }" email required
+                placeholder="Email Id">
+            <div *ngIf="email.invalid" class="invalid-feedback">
+                <div *ngIf="email?.errors?.required">Email is required</div>
+                <div *ngIf="email?.errors?.pattern">Must be a valid email address</div>
+            </div>
         </div>
         <div class="form-group">
-            <input type="password" class="form-control" [(ngModel)]="customerDetails.password" name="password" placeholder="Password" required="required">
+            <input type="password" class="form-control" [(ngModel)]="customerDetails.password" name="password"
+                minlength="8" #password="ngModel"
+                [ngClass]="{ 'is-invalid': password.invalid && (customerForm.submitted || password.touched) }"
+                placeholder="Password" required>
+            <div *ngIf="email.invalid" class="invalid-feedback">
+                <div *ngIf="password?.errors?.required">Password is required</div>
+                <div *ngIf="password?.errors?.minlength">Password should contain minimum 8 characters</div>
+            </div>
         </div>
         <div class="form-group">
-            <input type="password" class="form-control" name="confirmPassword" placeholder="Confirm Password"
-                required="required">
+            <input type="password" class="form-control" [(ngModel)]="customerDetails.confirmPassword"
+                name="confirmPassword" #confirmPassword="ngModel" [ngClass]="{ 'is-invalid': (confirmPassword.invalid || (password.value !== confirmPassword.value)) && 
+                (customerForm.submitted || confirmPassword.touched)}" placeholder="Confirm Password" required>
+            <div *ngIf="confirmPassword.invalid || (password.value !== confirmPassword.value)" class="invalid-feedback">
+                <div *ngIf="confirmPassword?.errors?.required">Confirm Password is required</div>
+                <div *ngIf="password?.value && confirmPassword?.value && (password?.value !== confirmPassword?.value)">
+                    Password and Confirm Password Should be same.
+                </div>
+            </div>
         </div>
         <div class="form-group">
-            <input type="text" class="form-control" [(ngModel)]="customerDetails.address" name="address" placeholder="Address" required="required">
+            <input type="text" class="form-control" [(ngModel)]="customerDetails.address" name="address"
+                #address="ngModel" [ngClass]="{ 'is-invalid': address.invalid && 
+                (customerForm.submitted || address.touched)}" placeholder="Address" required>
+            <div *ngIf="address.invalid" class="invalid-feedback">
+                <div *ngIf="address?.errors?.required">Address is required</div>
+            </div>
         </div>
         <div class="form-group">
-            <input type="text" class="form-control" [(ngModel)]="customerDetails.phone" name="phone" placeholder="Phonenumber" required="required">
+            <input type="text" class="form-control" [(ngModel)]="customerDetails.phone" name="phone" #phone="ngModel"
+                [ngClass]="{ 'is-invalid': phone.invalid && 
+            (customerForm.submitted || phone.touched)}" placeholder="Phone Number" required
+                pattern="^(\+91[\-\s]?)?[0]?(91)?[6789]\d{9}$">
+            <div *ngIf="phone.invalid" class="invalid-feedback">
+                <div *ngIf="phone?.errors?.required">Phone Number is required</div>
+                <div *ngIf="phone?.errors?.pattern">Please enter valid phone number</div>
+            </div>
         </div>
-        <div class="form-group">
+        <div class="form-group" [ngClass]="{ 'is-invalid': gender.invalid && 
+        (customerForm.submitted || gender.touched)}">
             <p>Please select your gender:</p>
-            <input type="radio" id="male" [(ngModel)]="customerDetails.gender" name="gender" value="male">
+            <input type="radio" id="male" [(ngModel)]="customerDetails.gender" name="gender" #gender="ngModel"
+                value="male">
             <label for="male">Male</label><br>
-            <input type="radio" id="female" [(ngModel)]="customerDetails.gender" name="gender" value="female">
+            <input type="radio" id="female" [(ngModel)]="customerDetails.gender" name="gender" #gender="ngModel"
+                value="female">
             <label for="female">Female</label>
+            <div *ngIf="gender.invalid" class="invalid-feedback">
+                <div *ngIf="gender?.errors?.required">Gender is required</div>
+            </div>
         </div>
-        
         <div class="form-group">
-            <button type="submit" class="btn btn-success btn-lg btn-block" (click)="registerCustomer()">Register Now</button>
+            <button class="btn btn-success btn-block"
+                [disabled]="customerForm.invalid || (password.value !== confirmPassword.value)">Register Now</button>
+            <div *ngIf="customerForm.invalid || (password.value !== confirmPassword.value)" class="invalid-feedback"
+                style="display: block;">
+                All Fields are required
+            </div>
         </div>
     </form>
     <div class="text-center">Already have an account? <a routerLink="/login" routerLinkActive="active">Login</a></div>
+</div>

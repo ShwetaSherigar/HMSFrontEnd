@@ -1,4 +1,4 @@
-<div class="booking">
+<!--<div class="booking">
     <form action="/examples/actions/confirmation.php" method="post">
         <h2 class="text-center">Check-In & Check-Out</h2>
         <div *ngIf="!totalPrice">
@@ -10,7 +10,8 @@
                 <input type="date" class="form-control" name="checkOut" [(ngModel)]="bookingDetails.checkOut"
                     placeholder="Check-Out" required="required">
             </div>
-            <div class="form-group">
+            
+        <div class="form-group">
                 <button type="submit" class="btn btn-info btn-lg btn-block"
                     (click)="proceedBooking()">Proceed</button>
             </div>
@@ -21,8 +22,13 @@
                 Price Per Day: {{this.restApi.selectedRoom.price | number}} <br>
                 <hr>
                 Total Price: {{totalPrice | number}}
-            </div>
+            </div>-->
+
+
             <!-- <div> -->
+
+<!--
+
             <div class="container">
                 <div class="row">
                     <div class="col">
@@ -35,12 +41,5 @@
                 </div>
             </div>
         </div>
-        <!-- </div> -->
-        <!-- <div class="bottom-action clearfix">
-            <label class="float-left form-check-label"><input type="checkbox"> Remember me</label>
-            <a routerLink="/forgot-password" routerLinkActive="active" class="float-right">Forgot Password?</a>
-        </div> -->
-        <!-- <p class="text-center small">Don't have an account? <a routerLink="/register" routerLinkActive="active">Sign up
-                here!</a></p> -->
     </form>
-</div>
+</div>-->

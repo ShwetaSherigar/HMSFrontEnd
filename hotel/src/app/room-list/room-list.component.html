@@ -1,29 +1,65 @@
-<div class="row">
-    <div class="room-list jumbotron shadow">
-        <h2 class="text-center">All Rooms In Our Hotel</h2>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">Room No</th>
-                    <th scope="col">Room Type</th>
-                    <th scope="col">Capacity</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Price</th>
-                    <th scope="col"></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let room of rooms;">
-                    <td>{{room.roomNo}}</td>
-                    <td>{{room.roomType}}</td>
-                    <td>{{room.capacity}}</td>
-                    <td>{{room.status}}</td>
-                    <td>{{room.price | number}}</td>
-                    <td class="float-right">
-                        <button class="btn btn-info" (click)="roomSelection(room)"> Select </button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+<div id="booking" class="section">
+    <div class="section-center">
+        <div class="container">
+            <div class="row">
+                <div class="booking-form">
+                    <div class="form-header">
+                        <h3>Make your reservation</h3>
+                    </div>
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <div class="form-group"> <input class="form-control" type="date" name="checkIn"
+                                    [(ngModel)]="checkIn" required [min]="today | date:'yyyy-MM-dd'"
+                                    (ngModelChange)="emptyCheckOut()"> <span class="form-label">Check In</span> </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group"> <input class="form-control" type="date" name="checkOut"
+                                    [(ngModel)]="checkOut" required [disabled]="!checkIn"
+                                    [min]="minDateCheckOut | date:'yyyy-MM-dd'"> <span class="form-label">Check
+                                    out</span> </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <select class="form-control" [(ngModel)]="roomType"
+                                    (ngModelChange)="getCapacityAndPrice()">
+                                    <option selected hidden>room types</option>
+                                    <option *ngFor="let room of roomTypes;" [(ngModel)]="roomType">{{room}}</option>
+
+                                </select>
+                                <span class="select-arrow"></span> <span class="form-label">Rooms</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group"> <input class="form-control" type="number" name="spiner" min="0"
+                                    max="5" step="1" [(ngModel)]="noOfRooms"
+                                    (ngModelChange)="getPriceAfterNoOfRooms(roomType,noOfRooms)"> <span
+                                    class="form-label">no of rooms</span> </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group"> <input class="form-control" type="text" min="0" max="5" step="1"
+                                    [(ngModel)]="capacity" disabled> <span class="form-label">capacity</span> </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group"> <input type="text" class="form-control" [(ngModel)]="couponCode"
+                                    (change)="getPriceAfterNoOfRooms(roomType,noOfRooms)"> <span
+                                    class="form-label">coupon Code</span> </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group"> <input type="text" class="form-control" [(ngModel)]="price"
+                                    disabled> <span class="form-label">Cost</span> </div>
+                        </div>
+                    </div>
+                    <div class="form-btn"> <button class="submit-btn" (click)="preCreateReservation()">Book Now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

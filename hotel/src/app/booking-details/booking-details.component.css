@@ -1,0 +1,17 @@
+
+h1{
+    text-align:center;
+    
+}
+body{
+    background-image:url("src/assets/booking.jpg");
+    background-size: cover;
+    height:fit-content;
+
+}
+
+td,th{
+    text-align: center;
+}
+
+

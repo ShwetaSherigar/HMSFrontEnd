@@ -1,13 +1,26 @@
 <div class="login-form">
-    <form action="/examples/actions/confirmation.php" method="post">
+    <form #customerForm="ngForm" (ngSubmit)="customerForm.form.valid && login()">
         <h2 class="text-center">Member Login</h2>
         <div class="form-group">
-            <input type="text" class="form-control" name="emailId" [(ngModel)]="loginDetails.emailId"
-                placeholder="Email Id" required="required">
+            <input type="email" class="form-control" name="email" [(ngModel)]="loginDetails.emailId" required
+                pattern="^[A-Za-z0-9]+([._+-][0-9a-zA-Z]+)?@[a-zA-Z0-9]+.[a-zA-Z]{2,4}([.][a-zA-Z]{2})?"
+                #email="ngModel"
+                [ngClass]="{ 'is-invalid': email.invalid && (customerForm.submitted || email.touched) }" email required
+                placeholder="Email Id">
+            <div *ngIf="email.invalid" class="invalid-feedback">
+                <div *ngIf="email?.errors?.required">Email is required</div>
+                <div *ngIf="email?.errors?.pattern">Must be a valid email address</div>
+            </div>
         </div>
         <div class="form-group">
-            <input type="password" class="form-control" name="password" [(ngModel)]="loginDetails.password"
-                placeholder="Password" required="required">
+            <input type="password" class="form-control" [(ngModel)]="loginDetails.password" name="password"
+                minlength="8" #password="ngModel"
+                [ngClass]="{ 'is-invalid': password.invalid && (customerForm.submitted || password.touched) }"
+                placeholder="Password" required>
+            <div *ngIf="email.invalid" class="invalid-feedback">
+                <div *ngIf="password?.errors?.required">Password is required</div>
+                <div *ngIf="password?.errors?.minlength">Password should contain minimum 8 characters</div>
+            </div>
         </div>
         <div class="form-group">
             <button type="submit" class="btn btn-info btn-lg btn-block" (click)="login()">Sign in</button>
@@ -16,9 +29,9 @@
             <span>
                 Don't have an account? <a routerLink="/register" routerLinkActive="active">Sign up here!</a>
             </span>
-            <!-- <label class="float-left form-check-label"><input type="checkbox"> Remember me</label> -->
+
             <a routerLink="/forgot-password" routerLinkActive="active" class="float-right">Forgot Password?</a>
         </div>
-        <!-- <p class="text-center small">Don't have an account? <a routerLink="/register" routerLinkActive="active">Sign up here!</a></p> -->
+
     </form>
 </div>
